@@ -21,11 +21,15 @@ class CubeController extends Controller
     {
         $session = new SessionServices();
         $cube = $session->getCube();
-        if($cube)
+        if($cube){
             $m = $cube->getM();
-        else
+            $n = $cube->getN() + 1;
+        }
+        else{
             $m = null;
-        return view('cube.indexPartial')->with([ 'm' => $m ]);
+            $n = null;
+        }
+        return view('cube.indexPartial')->with([ 'm' => $m, 'n' => $n ]);
     }
 
     public function create(Request $request)
