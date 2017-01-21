@@ -22,14 +22,16 @@ class CubeController extends Controller
         $session = new SessionServices();
         $cube = $session->getCube();
         if($cube){
+            $test = $cube->getTest() - 1;
             $m = $cube->getM();
-            $n = $cube->getN() + 1;
+            $n = $cube->getN();
         }
         else{
+            $test = null;
             $m = null;
             $n = null;
         }
-        return view('cube.indexPartial')->with([ 'm' => $m, 'n' => $n ]);
+        return view('cube.indexPartial')->with([ 'm' => $m, 'n' => $n, 'test' => $test ]);
     }
 
     public function create(Request $request)
@@ -41,10 +43,9 @@ class CubeController extends Controller
     public function createCube(Request $request)
     {
         $session = new SessionServices();
-        $input = $request->only('m', 'n');
-        $cube = new CubeServices($input['n'], $input['m']);
+        $input = $request->only('m', 'n', 'test');
+        $cube = new CubeServices($input['n'], $input['m'], $input['test']);
         $session->setCube($cube);
-        $session->setOperation(0);
         return redirect()->action('CubeController@indexPartial');
     }
 
@@ -62,17 +63,5 @@ class CubeController extends Controller
         $cube = $session->getCube();
         $input = $request->only('x1', 'x2', 'y1', 'y2', 'z1', 'z2');
         return response()->json(['result' => $cube->query($input['x1']-1, $input['y1']-1, $input['z1']-1, $input['x2']-1, $input['y2']-1, $input['z2']-1)]);
-    }
-
-    private function checkCube($cube)
-    {
-        $session = new SessionServices();
-        if ($session->getOperation() >= $cube->getM()) {
-            $session->setCube(null);
-            return false;
-        } else {
-           $session->setOperation($session->getOperation() + 1);
-        }
-        return true;
     }
 }

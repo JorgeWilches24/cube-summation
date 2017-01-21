@@ -1,6 +1,7 @@
 @extends('layouts.cube')
 @section('content')
     <form id="formCube" action="{{ url('createCube') }}" method="POST">
+        <input type="hidden" value="{{ $test }}" name="test" id="test"/>
         <div class="form-group">
             <label for="n">Tamaño del Cubo</label>
             <input type="number" class="form-control" id="n" name="n" required />

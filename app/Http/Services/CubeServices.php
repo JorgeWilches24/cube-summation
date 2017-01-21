@@ -4,11 +4,12 @@ namespace App\Http\Services;
 
 class CubeServices
 {
-    private $m, $n, $cube;
-    function __construct($n, $m)
+    private $m, $n, $test, $cube;
+    function __construct($n, $m, $test)
     {
         $this->n = $n;
         $this->m = $m;
+        $this->test = $test;
         $this->buildCube($n);
     }
 
@@ -49,6 +50,11 @@ class CubeServices
     public function getM()
     {
         return $this->m;
+    }
+
+    public function getTest()
+    {
+        return $this->test;
     }
 
     public function getCube()

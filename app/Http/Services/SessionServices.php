@@ -25,19 +25,9 @@ class SessionServices
         $_SESSION['cube'] = $cube;
     }
 
-    public function setOperation($operation)
-    {
-        $_SESSION['operation'] = $operation;
-    }
-
     public function getCube()
     {
         return $this->getValue('cube');
-    }
-
-    public function getOperation()
-    {
-        return $this->getValue('operation');
     }
 
     public function finishSession(){

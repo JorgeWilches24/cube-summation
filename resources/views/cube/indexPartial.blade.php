@@ -1,49 +1,70 @@
 @extends('layouts.cube')
 @section('content')
-    @for ($i = 1; $i <= $m; $i++)
-        <h4 class="page-title" id="tittle_{{ $i }}">Seleccione el comando {{ $i }}</h4>
-        <div class="form-group">
-            <button class="btn btn-success query" type="button" queryId="query_{{ $i }}" m="{{ $i }}" formId="formularioQuery_{{ $i }}">Consulta</button>
-            <button class="btn btn-info update" type="button" updateId="update_{{ $i }}" m="{{ $i }}" formId="formularioUpdate_{{ $i }}">Actualizar</button>
-        </div>
-        <div id="query_{{ $i }}" style="display:none;">
-            <form id="formularioQuery_{{ $i }}">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="page-title">Comandos</h4></div>
+        <div class="panel-body">
+            @for ($i = 1; $i <= $m; $i++)
+                <h4 class="page-title" id="tittle_{{ $i }}">Seleccione el comando {{ $i }}</h4>
                 <div class="form-group">
-                    <label for="x1">x1</label>
-                    <input type="number" class="form-control" id="x1" name="x1" required/>
-                    <label for="y1">y1</label>
-                    <input type="number" class="form-control" id="y1" name="y1" required/>
-                    <label for="z1">z1</label>
-                    <input type="number" class="form-control" id="z1" name="z1" required/>
+                    <button class="btn btn-success query" type="button" queryId="query_{{ $i }}" m="{{ $i }}" formId="formularioQuery_{{ $i }}">Consulta</button>
+                    <button class="btn btn-info update" type="button" updateId="update_{{ $i }}" m="{{ $i }}" formId="formularioUpdate_{{ $i }}">Actualizar</button>
                 </div>
-                <div class="form-group">
-                    <label for="x2">x2</label>
-                    <input type="number" class="form-control" id="x2" name="x2" required/>
-                    <label for="y2">y2</label>
-                    <input type="number" class="form-control" id="y2" name="y2" required/>
-                    <label for="z2">z2</label>
-                    <input type="number" class="form-control" id="z2" name="z2" required/>
+                <div id="query_{{ $i }}" style="display:none;">
+                    <form id="formularioQuery_{{ $i }}">
+                        <div class="form-group">
+                            <label for="x1">x1</label>
+                            <input type="number" class="form-control" id="x1" name="x1" required/>
+                            <label for="y1">y1</label>
+                            <input type="number" class="form-control" id="y1" name="y1" required/>
+                            <label for="z1">z1</label>
+                            <input type="number" class="form-control" id="z1" name="z1" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="x2">x2</label>
+                            <input type="number" class="form-control" id="x2" name="x2" required/>
+                            <label for="y2">y2</label>
+                            <input type="number" class="form-control" id="y2" name="y2" required/>
+                            <label for="z2">z2</label>
+                            <input type="number" class="form-control" id="z2" name="z2" required/>
+                        </div>
+                    </form>
+                    <button id="buttonQuery_{{ $i }}" class="btn btn-info buttonQuery" formId="formularioQuery_{{ $i }}" m="{{ $i }}">Ejecutar</button>
                 </div>
-            </form>
-            <button id="buttonQuery_{{ $i }}" class="btn btn-info buttonQuery" formId="formularioQuery_{{ $i }}" m="{{ $i }}">Ejecutar</button>
+                <label id="resultado_{{ $i }}" style="display:none;"></label>
+                <div id="update_{{ $i }}" style="display:none;">
+                    <form id="formularioUpdate_{{ $i }}">
+                        <div class="form-group">
+                            <label for="x">x</label>
+                            <input type="number" class="form-control" id="x" name="x" required/>
+                            <label for="y">y</label>
+                            <input type="number" class="form-control" id="y" name="y" required/>
+                            <label for="z">z</label>
+                            <input type="number" class="form-control" id="z" name="z" required/>
+                            <label for="value">valor</label>
+                            <input type="number" class="form-control" id="value" name="value" required/>
+                        </div>
+                    </form>
+                    <button id="buttonUpdate_{{ $i }}" class="btn btn-info buttonUpdate" formId="formularioUpdate_{{ $i }}" m="{{ $i }}">Ejecutar</button>
+                </div>
+            @endfor
         </div>
-        <label id="resultado_{{ $i }}" style="display:none;"></label>
-        <div id="update_{{ $i }}" style="display:none;">
-            <form id="formularioUpdate_{{ $i }}">
-                <div class="form-group">
-                    <label for="x">x</label>
-                    <input type="number" class="form-control" id="x" name="x" required/>
-                    <label for="y">y</label>
-                    <input type="number" class="form-control" id="y" name="y" required/>
-                    <label for="z">z</label>
-                    <input type="number" class="form-control" id="z" name="z" required/>
-                    <label for="value">valor</label>
-                    <input type="number" class="form-control" id="value" name="value" required/>
+        <div class="panel-footer">
+            @if($test > 0)
+                <div class="">
+                    <form id="formTest1" action="{{ url('create') }}" method="POST">
+                        <input type="hidden" value="{{ $test }}" name="test" id="test" />
+                        <button class="btn btn-info" onClick="nextTest()">Siguiente prueba</button>
+                    </form>
                 </div>
-            </form>
-            <button id="buttonUpdate_{{ $i }}" class="btn btn-info buttonUpdate" formId="formularioUpdate_{{ $i }}" m="{{ $i }}">Ejecutar</button>
+            @else
+                <div class="">
+                    <form id="formTest2" action="{{ url('/') }}" method="GET">
+                        <button class="btn btn-info" onClick="finishTest()">Finalizar prueba</button>
+                    </form>
+                </div>
+            @endif
         </div>
-    @endfor
+    </div>
 @endsection
 @section('page-script')
 	<script type="text/javascript">
@@ -274,5 +295,11 @@
 				}
 			});
 		}
+        function nextTest(){
+            $("#formTest1").submit();
+        }
+        function finishTest(){
+            $("#formTest2").submit();
+        }
 	</script>
 @endsection
