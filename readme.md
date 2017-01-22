@@ -28,7 +28,7 @@ Constrains </br>
 1 <= y1 <= y2 <= N </br>
 1 <= z1 <= z2 <= N </br>
 1 <= x,y,z <= N </br>
--109 <= W <= 109</br>
+-10^9 <= W <= 10^9</br>
 
 Sample Input</br>
 
